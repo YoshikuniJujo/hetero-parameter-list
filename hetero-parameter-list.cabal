@@ -5,12 +5,12 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           hetero-parameter-list
-version:        0.1.0.17
+version:        0.1.0.18
 synopsis:       hetero list with parameter list
 description:    Please see the README on GitHub at <https://github.com/YoshikuniJujo/hetero-parameter-list#readme>
 category:       Data
-homepage:       https://github.com/YoshikuniJujo/try-hetero-parameter-list#readme
-bug-reports:    https://github.com/YoshikuniJujo/try-hetero-parameter-list/issues
+homepage:       https://github.com/YoshikuniJujo/hetero-parameter-list#readme
+bug-reports:    https://github.com/YoshikuniJujo/hetero-parameter-list/issues
 author:         Yoshikuni Jujo
 maintainer:     yoshikuni.jujo@gmail.com
 copyright:      2023 Yoshikuni Jujo
@@ -23,7 +23,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/YoshikuniJujo/try-hetero-parameter-list
+  location: https://github.com/YoshikuniJujo/hetero-parameter-list
 
 library
   exposed-modules:
@@ -36,8 +36,8 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
-    , data-default
-    , template-haskell
+    , data-default <1
+    , template-haskell <3
   default-language: Haskell2010
 
 test-suite try-hetero-parameter-list-test
@@ -50,7 +50,7 @@ test-suite try-hetero-parameter-list-test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
-    , data-default
-    , template-haskell
+    , data-default <1
+    , template-haskell <3
     , try-hetero-parameter-list
   default-language: Haskell2010
