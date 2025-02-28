@@ -56,6 +56,7 @@ module Data.HeteroParList (
 
 	ToListWithCM(..), ToListWithCM'(..),
 	ToListWithCCpsM(..), ToListWithCCpsM'(..), withListWithCCpsM',
+	ToListWithCCpsM''(..), withListWithCCpsM'',
 
 	-- ** Homo List
 
@@ -561,3 +562,22 @@ withListWithCCpsM' :: forall k c t' ns t m a b .
 	(forall (s :: k) . c (t' s) => t s -> (a -> m b) -> m b) ->
 	([a] -> m b) -> m b
 withListWithCCpsM' xs f = toListWithCCpsM' @_ @_ @c @t' f xs
+
+class ToListWithCCpsM'' c (ns :: [k]) where
+	toListWithCCpsM'' ::
+		(forall (s :: k) . c s => t s -> (a -> m b) -> m b) ->
+		PL t ns -> ([a] -> m b) -> m b
+
+instance ToListWithCCpsM'' c '[] where toListWithCCpsM'' _ Nil = ($ [])
+
+instance (c n, ToListWithCCpsM'' c ns) =>
+	ToListWithCCpsM'' c (n ': ns) where
+	toListWithCCpsM'' f (x :** xs) g =
+		f x \y -> toListWithCCpsM'' @_ @c f xs \ys -> g $ y : ys
+
+withListWithCCpsM'' :: forall {k} c ns t m a b .
+	ToListWithCCpsM'' c ns =>
+	PL t ns ->
+	(forall (s :: k) . c s => t s -> (a -> m b) -> m b) ->
+	([a] -> m b) -> m b
+withListWithCCpsM'' xs f = toListWithCCpsM'' @_ @c f xs
